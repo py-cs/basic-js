@@ -8,11 +8,14 @@ const chainMaker = {
   },
 
   addLink(value) {
-    this.links = this.links.concat(''+value)
+    this.links = [...this.links, String(value)]
     return this
   },
   removeLink(position) {
-    if (this.links[position] === undefined) throw new Error()
+    if (this.links[position] === undefined) {
+      chainMaker.links = []
+      throw new Error('Invalid Index')
+    }
     this.links = this.links.filter((_, i) => i !== position-1)
     return this
   },
@@ -22,7 +25,7 @@ const chainMaker = {
   },
   finishChain() {
     const res = this.links.map(el => `( ${el} )`).join('~~')
-    this.links = []
+    chainMaker.links = []
     return res
   }
 };
